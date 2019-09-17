@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ecomZadanie.Views.MainPage"
+             Title="{Binding Title}"
+             >
+
+    <AbsoluteLayout >
+
+        <ListView>
+            
+        </ListView>
+        <Grid AbsoluteLayout.LayoutBounds=".5,1,.5,.1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Switch Grid.Column="0"/>
+            <SearchBar SearchCommand="{Binding SearchCommand}" Grid.Column="1"/>
+        </Grid>
+    </AbsoluteLayout>
+
+</ContentPage>
