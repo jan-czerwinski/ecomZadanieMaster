@@ -1,40 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="http://prismlibrary.com"
              x:Class="ecomZadanie.Views.MainPage"
              Title="{Binding Title}"
              >
 
-    <StackLayout >
-
+    <StackLayout>
         <ListView ItemsSource="{Binding Users}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                            <Label 
-                            FontSize="Large"
-                            Text="{Binding Id}"/>
-                            <Label 
-                            FontSize="Large"
-                            Text="{Binding FirstName}"/>
-                            <Label 
-                            FontSize="Large"
-                            Text="{Binding LastName}"/>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                            <Label
+              FontSize="Large"
+              Text="{Binding Id}"/>
+                            <Label
+              FontSize="Large"
+              Text="{Binding FirstName}"/>
+                            <Label
+              FontSize="Large"
+              Text="{Binding LastName}"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            
         </ListView>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Switch Grid.Column="0"/>
-            <SearchBar SearchCommand="{Binding SearchCommand}" Grid.Column="1"/>
-        </Grid>
+
+        <StackLayout Orientation="Horizontal">
+            <Switch IsToggled="{Binding SearchByFirstName}"/>
+            <SearchBar 
+                SearchCommand="{Binding SearchCommand}" 
+                Placeholder="Wyszukaj po nazwisku">
+                <SearchBar.Triggers>
+                    <DataTrigger 
+                        TargetType="SearchBar"
+                        Binding="{Binding SearchByFirstName}"
+                        Value="True">
+                        <Setter 
+                             Property="Placeholder"
+                             Value="Wyszukaj po imieniu" />
+                    </DataTrigger>
+                </SearchBar.Triggers>
+            </SearchBar>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

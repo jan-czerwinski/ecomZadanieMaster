@@ -33,6 +33,15 @@ namespace ecomZadanie.ViewModels
             }
         }
 
+        private bool _searchByFirstName = false;
+        public bool SearchByFirstName
+        {
+            get { return _searchByFirstName; }
+            set
+            {
+                SetProperty(ref _searchByFirstName, value);
+            }
+        }
 
         private ICommand _searchCommand;
         public ICommand SearchCommand
