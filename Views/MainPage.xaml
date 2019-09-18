@@ -5,12 +5,29 @@
              Title="{Binding Title}"
              >
 
-    <AbsoluteLayout >
+    <StackLayout >
 
-        <ListView>
+        <ListView ItemsSource="{Binding Users}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Label 
+                            FontSize="Large"
+                            Text="{Binding Id}"/>
+                            <Label 
+                            FontSize="Large"
+                            Text="{Binding FirstName}"/>
+                            <Label 
+                            FontSize="Large"
+                            Text="{Binding LastName}"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             
         </ListView>
-        <Grid AbsoluteLayout.LayoutBounds=".5,1,.5,.1" AbsoluteLayout.LayoutFlags="All">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -18,6 +35,6 @@
             <Switch Grid.Column="0"/>
             <SearchBar SearchCommand="{Binding SearchCommand}" Grid.Column="1"/>
         </Grid>
-    </AbsoluteLayout>
+    </StackLayout>
 
 </ContentPage>
