@@ -23,6 +23,7 @@ namespace ecomZadanie.ViewModels
         {
             Title = "Main Page";
             RefreshData();
+            FillVisibleUsers();
         }
 
         private bool _searchByFirstName = false;
@@ -35,18 +36,6 @@ namespace ecomZadanie.ViewModels
             }
         }
 
-        private ICommand _searchCommand;
-        public ICommand SearchCommand
-        {
-            get
-            {
-                return _searchCommand ?? (_searchCommand = new Command<string>((text) =>
-                {
-                    Debug.WriteLine("TU TTEKS --------------------------");
-
-                }));
-            }
-        }
         public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
         private UserRoot UsersRoot { get; set; }
         public async void RefreshData()
@@ -65,5 +54,38 @@ namespace ecomZadanie.ViewModels
                 }
             }
         }
+
+        public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
+        private void FillVisibleUsers()
+        {
+            foreach (var user in AllUsers)
+            {
+                VisibleUsers.Add(user);
+            }
+        }
+
+
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ?? (_searchCommand = new Command<string>((text) =>
+        {
+            if (text != null)
+            {
+
+                VisibleUsers.Clear();
+                text = text.ToLower();
+                foreach (var user in AllUsers) //TODO find a better way to do that
+                {
+                    if (SearchByFirstName ?
+                        user.FirstName.ToLower().StartsWith(text) :
+                        user.LastName.ToLower().StartsWith(text))
+                    {
+                        VisibleUsers.Add(user);
+                    }
+                }
+            }
+            else { FillVisibleUsers(); }
+
+            Debug.WriteLine(VisibleUsers);
+        }));
     }
 }

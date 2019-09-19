@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ecomZadanie.Views.MainPage"
              Title="{Binding Title}"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              >
 
     <StackLayout>
-        <ListView ItemsSource="{Binding AllUsers}">
+        <ListView
+            x:Name="UserView"
+            ItemsSource="{Binding VisibleUsers}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -27,10 +30,19 @@
         </ListView>
 
         <StackLayout Orientation="Horizontal">
-            <Switch IsToggled="{Binding SearchByFirstName}"/>
-            <SearchBar 
+            <Switch IsToggled="{Binding SearchByFirstName}">
+                <Switch.Behaviors>
+                    <b:EventToCommandBehavior EventName="Toggled" 
+                                      Command="{Binding SearchCommand}"
+                                      CommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
+                                      />
+                </Switch.Behaviors>
+            </Switch>
+            <SearchBar
+                x:Name="SearchBar"
                 SearchCommand="{Binding SearchCommand}" 
-                Placeholder="Wyszukaj po nazwisku">
+                Placeholder="Wyszukaj po nazwisku"
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
                 <SearchBar.Triggers>
                     <DataTrigger 
                         TargetType="SearchBar"
