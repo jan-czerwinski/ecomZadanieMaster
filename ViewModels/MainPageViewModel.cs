@@ -1,20 +1,11 @@
-﻿using ecomZadanie.Data;
-using ecomZadanie.Models;
+﻿using ecomZadanie.Models;
 using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
+
 
 namespace ecomZadanie.ViewModels
 {
