@@ -5,7 +5,6 @@
              Title="{Binding Title}"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              >
-
     <StackLayout>
         <ListView
             x:Name="UserView"
@@ -40,7 +39,8 @@
             </Switch>
             <SearchBar
                 x:Name="SearchBar"
-                SearchCommand="{Binding SearchCommand}" 
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding SearchText}"
                 Placeholder="Wyszukaj po nazwisku"
                 SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
                 <SearchBar.Triggers>
@@ -53,6 +53,12 @@
                              Value="Wyszukaj po imieniu" />
                     </DataTrigger>
                 </SearchBar.Triggers>
+                <SearchBar.Behaviors>
+                    <b:EventToCommandBehavior
+                        EventName="TextChanged"
+                        Command="{Binding TextChangeInSearchCommand}"
+                        />
+                </SearchBar.Behaviors>
             </SearchBar>
         </StackLayout>
     </StackLayout>

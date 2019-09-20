@@ -1,6 +1,8 @@
-﻿using ecomZadanie.Models;
+﻿using ecomZadanie.Data;
+using ecomZadanie.Models;
 using Newtonsoft.Json;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -18,13 +20,8 @@ namespace ecomZadanie.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService)
-            : base(navigationService)
-        {
-            Title = "Main Page";
-            RefreshData();
-            FillVisibleUsers();
-        }
+        public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
+        public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
 
         private bool _searchByFirstName = false;
         public bool SearchByFirstName
@@ -35,8 +32,54 @@ namespace ecomZadanie.ViewModels
                 SetProperty(ref _searchByFirstName, value);
             }
         }
+        private string _searchText = String.Empty;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { SetProperty(ref _searchText, value); }
+        }
+        public DelegateCommand<string> SearchCommand { get; private set; }
+        public DelegateCommand TextChangeInSearchCommand { get; private set; }
+        public MainPageViewModel(INavigationService navigationService)
+            : base(navigationService)
+        {
+            Title = "Main Page";
+            RefreshData();
+            SearchCommand = new DelegateCommand<string>(Search);
+            TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
+            FillVisibleUsers();
+        }
+        private void FillVisibleUsers()
+        {
+            VisibleUsers.Clear();
+            foreach (var user in AllUsers)
+            {
+                VisibleUsers.Add(user);
+            }
+        }
+        private void Search(string text)
+        {
+            VisibleUsers.Clear();
+            text = text.ToLower();
+            foreach (var user in AllUsers)
+            {
+                if (SearchByFirstName ?
+                    user.FirstName.ToLower().StartsWith(text) :
+                    user.LastName.ToLower().StartsWith(text))
+                {
+                    VisibleUsers.Add(user);
+                }
+            }
+        }
 
-        public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
+        private void TextChangeInSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                FillVisibleUsers();
+            }
+        }
+
         private UserRoot UsersRoot { get; set; }
         public async void RefreshData()
         {
@@ -54,38 +97,5 @@ namespace ecomZadanie.ViewModels
                 }
             }
         }
-
-        public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
-        private void FillVisibleUsers()
-        {
-            foreach (var user in AllUsers)
-            {
-                VisibleUsers.Add(user);
-            }
-        }
-
-
-        private ICommand _searchCommand;
-        public ICommand SearchCommand => _searchCommand ?? (_searchCommand = new Command<string>((text) =>
-        {
-            if (text != null)
-            {
-
-                VisibleUsers.Clear();
-                text = text.ToLower();
-                foreach (var user in AllUsers) //TODO find a better way to do that
-                {
-                    if (SearchByFirstName ?
-                        user.FirstName.ToLower().StartsWith(text) :
-                        user.LastName.ToLower().StartsWith(text))
-                    {
-                        VisibleUsers.Add(user);
-                    }
-                }
-            }
-            else { FillVisibleUsers(); }
-
-            Debug.WriteLine(VisibleUsers);
-        }));
     }
 }
