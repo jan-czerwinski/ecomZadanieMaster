@@ -3,25 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ecomZadanie.Views.MainPage"
              Title="{Binding Title}"
-             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
-             >
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+
     <StackLayout>
         <ListView
             x:Name="UserView"
             ItemsSource="{Binding VisibleUsers}">
+            <ListView.Behaviors>
+                <b:EventToCommandBehavior 
+                    EventName="ItemTapped"                      
+                    Command="{Binding UserTappedCommand}"/>
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
                             <Label
-              FontSize="Large"
-              Text="{Binding Id}"/>
+                                FontSize="Large"
+                                Text="{Binding Id}"/>
                             <Label
-              FontSize="Large"
-              Text="{Binding FirstName}"/>
+                                FontSize="Large"
+                                Text="{Binding FirstName}"/>
                             <Label
-              FontSize="Large"
-              Text="{Binding LastName}"/>
+                                FontSize="Large"
+                                Text="{Binding LastName}"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -31,12 +36,13 @@
         <StackLayout Orientation="Horizontal">
             <Switch IsToggled="{Binding SearchByFirstName}">
                 <Switch.Behaviors>
-                    <b:EventToCommandBehavior EventName="Toggled" 
-                                      Command="{Binding SearchCommand}"
-                                      CommandParameter="{Binding Text, Source={x:Reference SearchBar}}"
-                                      />
+                    <b:EventToCommandBehavior 
+                        EventName="Toggled" 
+                        Command="{Binding SearchCommand}"
+                        CommandParameter="{Binding Text, Source={x:Reference SearchBar}}"/>
                 </Switch.Behaviors>
             </Switch>
+
             <SearchBar
                 x:Name="SearchBar"
                 SearchCommand="{Binding SearchCommand}"
@@ -56,8 +62,7 @@
                 <SearchBar.Behaviors>
                     <b:EventToCommandBehavior
                         EventName="TextChanged"
-                        Command="{Binding TextChangeInSearchCommand}"
-                        />
+                        Command="{Binding TextChangeInSearchCommand}"/>
                 </SearchBar.Behaviors>
             </SearchBar>
         </StackLayout>

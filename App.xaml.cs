@@ -30,6 +30,7 @@ namespace ecomZadanie
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<UserDetailsPage, UserDetailsPageViewModel>();
         }
     }
 }

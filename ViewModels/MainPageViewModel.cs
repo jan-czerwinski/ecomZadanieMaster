@@ -11,10 +11,11 @@ namespace ecomZadanie.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        readonly INavigationService _navigationService;
         public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
         public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
 
-        private bool _searchByFirstName = false;
+        bool _searchByFirstName = false;
         public bool SearchByFirstName
         {
             get { return _searchByFirstName; }
@@ -23,7 +24,7 @@ namespace ecomZadanie.ViewModels
                 SetProperty(ref _searchByFirstName, value);
             }
         }
-        private string _searchText = String.Empty;
+        string _searchText = String.Empty;
         public string SearchText
         {
             get { return _searchText; }
@@ -31,15 +32,25 @@ namespace ecomZadanie.ViewModels
         }
         public DelegateCommand<string> SearchCommand { get; private set; }
         public DelegateCommand TextChangeInSearchCommand { get; private set; }
+        public DelegateCommand UserTappedCommand { get; private set; }
+
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             Title = "Main Page";
+            _navigationService = navigationService;
             RefreshData();
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
+            UserTappedCommand = new DelegateCommand(UserTapped);
             FillVisibleUsers();
         }
+
+        private void UserTapped()
+        {
+            _navigationService.NavigateAsync("UserDetailsPage");
+        }
+
         private void FillVisibleUsers()
         {
             VisibleUsers.Clear();
