@@ -12,7 +12,8 @@
             <ListView.Behaviors>
                 <b:EventToCommandBehavior 
                     EventName="ItemTapped"                      
-                    Command="{Binding UserTappedCommand}"/>
+                    Command="{Binding UserTappedCommand}"
+                    EventArgsParameterPath="Item"/>
             </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>

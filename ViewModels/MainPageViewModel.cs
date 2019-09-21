@@ -4,7 +4,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.ObjectModel;
-
+using System.Diagnostics;
 
 namespace ecomZadanie.ViewModels
 {
@@ -29,7 +29,7 @@ namespace ecomZadanie.ViewModels
         }
         public DelegateCommand<string> SearchCommand { get; private set; }
         public DelegateCommand TextChangeInSearchCommand { get; private set; }
-        public DelegateCommand UserTappedCommand { get; private set; }
+        public DelegateCommand<User> UserTappedCommand { get; private set; }
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
@@ -38,13 +38,17 @@ namespace ecomZadanie.ViewModels
             restService = new RestService();
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
-            UserTappedCommand = new DelegateCommand(UserTapped);
+            UserTappedCommand = new DelegateCommand<User>(UserTapped);
             FillAllUsers();
         }
 
-        private void UserTapped()
+        private void UserTapped(User user)
         {
-            _navigationService.NavigateAsync("UserDetailsPage");
+            var navigationParams = new NavigationParameters
+            {
+                { "Id", user.Id }
+            };
+            _navigationService.NavigateAsync("UserDetailsPage", navigationParams);
         }
         private async void FillAllUsers()
         {

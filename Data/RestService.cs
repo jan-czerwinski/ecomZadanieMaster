@@ -12,18 +12,34 @@ namespace ecomZadanie.Data
     class RestService
     {
         public ObservableCollection<User> AllUsers { get; private set; }
-        private UserRoot UsersRoot { get; set; }
+        private UserRoot Root { get; set; }
         public async Task<ObservableCollection<User>> RefreshData()
         {
             using (HttpClient _client = new HttpClient())
             {
-                UsersRoot = new UserRoot();
+                Root = new UserRoot();
                 var response = await _client.GetStringAsync(Constants.UsersUrl);
-                UsersRoot = JsonConvert.DeserializeObject<UserRoot>(response);
+                Root = JsonConvert.DeserializeObject<UserRoot>(response);
             }
-            if (UsersRoot.IsSuccess)
+            if (Root.IsSuccess)
             {
-                return new ObservableCollection<User>(UsersRoot.Data);
+                return new ObservableCollection<User>(Root.Data);
+            }
+            return null;
+        }
+
+        private UserDetailsRoot DetailsRoot { get; set; }
+        public async Task<UserDetails> GetUserDetails(int Id)
+        {
+            using (HttpClient _client = new HttpClient())
+            {
+                DetailsRoot = new UserDetailsRoot();
+                var response = await _client.GetStringAsync(Constants.UserDetailUrl(Id));
+                DetailsRoot = JsonConvert.DeserializeObject<UserDetailsRoot>(response);
+            }
+            if (DetailsRoot.IsSuccess)
+            {
+                return DetailsRoot.Data;
             }
             return null;
         }
