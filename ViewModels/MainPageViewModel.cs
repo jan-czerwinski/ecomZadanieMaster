@@ -1,10 +1,9 @@
-﻿using ecomZadanie.Models;
-using Newtonsoft.Json;
+﻿using ecomZadanie.Data;
+using ecomZadanie.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 
 
 namespace ecomZadanie.ViewModels
@@ -15,14 +14,12 @@ namespace ecomZadanie.ViewModels
         public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
         public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
 
+        readonly RestService restService;
         bool _searchByFirstName = false;
         public bool SearchByFirstName
         {
             get { return _searchByFirstName; }
-            set
-            {
-                SetProperty(ref _searchByFirstName, value);
-            }
+            set { SetProperty(ref _searchByFirstName, value); }
         }
         string _searchText = String.Empty;
         public string SearchText
@@ -33,24 +30,31 @@ namespace ecomZadanie.ViewModels
         public DelegateCommand<string> SearchCommand { get; private set; }
         public DelegateCommand TextChangeInSearchCommand { get; private set; }
         public DelegateCommand UserTappedCommand { get; private set; }
-
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             Title = "Main Page";
             _navigationService = navigationService;
-            RefreshData();
+            restService = new RestService();
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
             UserTappedCommand = new DelegateCommand(UserTapped);
-            FillVisibleUsers();
+            FillAllUsers();
         }
 
         private void UserTapped()
         {
             _navigationService.NavigateAsync("UserDetailsPage");
         }
-
+        private async void FillAllUsers()
+        {
+            var result = await restService.RefreshData();
+            foreach (var user in result)
+            {
+                AllUsers.Add(user);
+            }
+            FillVisibleUsers();
+        }
         private void FillVisibleUsers()
         {
             VisibleUsers.Clear();
@@ -58,6 +62,7 @@ namespace ecomZadanie.ViewModels
             {
                 VisibleUsers.Add(user);
             }
+
         }
         private void Search(string text)
         {
@@ -73,30 +78,11 @@ namespace ecomZadanie.ViewModels
                 }
             }
         }
-
         private void TextChangeInSearch()
         {
             if (string.IsNullOrWhiteSpace(SearchText))
             {
                 FillVisibleUsers();
-            }
-        }
-
-        private UserRoot UsersRoot { get; set; }
-        public async void RefreshData()
-        {
-            using (HttpClient _client = new HttpClient())
-            {
-                UsersRoot = new UserRoot();
-                var response = await _client.GetStringAsync(Constants.UsersUrl);
-                UsersRoot = JsonConvert.DeserializeObject<UserRoot>(response);
-            }
-            if (UsersRoot.IsSuccess)
-            {
-                foreach (var user in UsersRoot.Data)
-                {
-                    AllUsers.Add(user);
-                }
             }
         }
     }
