@@ -34,7 +34,8 @@ namespace ecomZadanie.Data
             using (HttpClient _client = new HttpClient())
             {
                 DetailsRoot = new UserDetailsRoot();
-                var response = await _client.GetStringAsync(Constants.UserDetailUrl(Id));
+                string url = string.Format(Constants.UserDetailBaseUrl, Id);
+                var response = await _client.GetStringAsync(url);
                 DetailsRoot = JsonConvert.DeserializeObject<UserDetailsRoot>(response);
             }
             if (DetailsRoot.IsSuccess)
