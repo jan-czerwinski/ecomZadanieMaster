@@ -19,9 +19,9 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                            <Label
+                            <!--Label
                                 FontSize="Large"
-                                Text="{Binding Id}"/>
+                                Text="{Binding Id}"/-->
                             <Label
                                 FontSize="Large"
                                 Text="{Binding FirstName}"/>

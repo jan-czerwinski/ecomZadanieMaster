@@ -33,7 +33,7 @@ namespace ecomZadanie.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            Title = "Main Page";
+            Title = "Strona główna";
             _navigationService = navigationService;
             restService = new RestService();
             SearchCommand = new DelegateCommand<string>(Search);

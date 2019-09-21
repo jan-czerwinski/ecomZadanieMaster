@@ -5,10 +5,10 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ecomZadanie.Views.UserDetailsPage">
     <StackLayout>
-        <Label Text="{Binding UserData.Id}"/>
-        <Label Text="{Binding UserData.FirstName}"/>
-        <Label Text="{Binding UserData.LastName}"/>
-        <Label Text="{Binding UserData.Age}"/>
-        <Label Text="{Binding UserData.City}"/>
+        <Label Text="{Binding UserData.Id,       StringFormat='Id: {0:F0}'}"       FontSize="Large"/>
+        <Label Text="{Binding UserData.FirstName,StringFormat='Imię: {0:F0}'}"     FontSize="Large"/>
+        <Label Text="{Binding UserData.LastName, StringFormat='Nazwisko: {0:F0}'}" FontSize="Large"/>
+        <Label Text="{Binding UserData.Age,      StringFormat='Wiek: {0:F0}'}"     FontSize="Large"/>
+        <Label Text="{Binding UserData.City,     StringFormat='Miasto: {0:F0}'}"   FontSize="Large"/>
     </StackLayout>
 </ContentPage>
