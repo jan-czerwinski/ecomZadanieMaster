@@ -37,7 +37,6 @@ namespace ecomZadanie.ViewModels
         {
             var result = await restService.GetUserDetails(Id);
             UserData = result;
-            Debug.WriteLine("Duzy siusiak");
         }
     }
 }
