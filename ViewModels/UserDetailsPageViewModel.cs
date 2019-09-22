@@ -12,7 +12,6 @@ namespace ecomZadanie.ViewModels
 {
     public class UserDetailsPageViewModel : ViewModelBase
     {
-
         readonly RestService restService;
         private UserDetailsPageVisibility _isVisible;
         public UserDetailsPageVisibility IsVisible
@@ -38,7 +37,6 @@ namespace ecomZadanie.ViewModels
             FillData(Id);
             Debug.WriteLine(Id);
         }
-
         private async void FillData(int Id)
         {
             var result = await restService.GetUserDetails(Id);

@@ -42,13 +42,14 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Label
-               Text="Brak użytkowników do pokazania" 
-               HorizontalOptions="Center" 
-               HorizontalTextAlignment="Center" 
-               FontSize="Large"
-               IsVisible="{Binding IsVisible.Label}"/>
         </StackLayout>
+        <Label
+                Text="Brak użytkowników spełniających wyszukanie" 
+                HorizontalOptions="Center" 
+                HorizontalTextAlignment="Center" 
+                VerticalOptions="CenterAndExpand"
+                FontSize="Large"
+                IsVisible="{Binding IsVisible.Label}"/>
 
         <StackLayout Orientation="Horizontal">
             <Switch IsToggled="{Binding SearchByFirstName}">
