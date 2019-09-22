@@ -13,14 +13,22 @@ namespace ecomZadanie.ViewModels
         readonly INavigationService _navigationService;
         public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
         public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
-
         readonly RestService restService;
-        bool _searchByFirstName = false;
+
+        private Visible _isVisible;
+        public Visible IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
+
+        private bool _searchByFirstName = false;
         public bool SearchByFirstName
         {
             get { return _searchByFirstName; }
             set { SetProperty(ref _searchByFirstName, value); }
         }
+
         string _searchText = String.Empty;
         public string SearchText
         {
@@ -39,6 +47,7 @@ namespace ecomZadanie.ViewModels
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
             UserTappedCommand = new DelegateCommand<User>(UserTapped);
+            IsVisible = new Visible() { ListView = true, Label = false };
             FillAllUsers();
         }
 
@@ -81,13 +90,25 @@ namespace ecomZadanie.ViewModels
                     VisibleUsers.Add(user);
                 }
             }
+            SetVisibility();
+
         }
         private void TextChangeInSearch()
         {
             if (string.IsNullOrWhiteSpace(SearchText))
             {
                 FillVisibleUsers();
+                SetVisibility();
             }
+        }
+
+        private void SetVisibility()
+        {
+            IsVisible = new Visible()
+            {
+                Label = VisibleUsers.Count == 0,
+                ListView = VisibleUsers.Count != 0
+            };
         }
     }
 }

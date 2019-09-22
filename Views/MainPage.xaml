@@ -6,33 +6,42 @@
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
 
     <StackLayout>
-        <ListView
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ListView
             x:Name="UserView"
-            ItemsSource="{Binding VisibleUsers}">
-            <ListView.Behaviors>
-                <b:EventToCommandBehavior 
+            ItemsSource="{Binding VisibleUsers}"
+            IsVisible="{Binding IsVisible.ListView}">
+                <ListView.Behaviors>
+                    <b:EventToCommandBehavior 
                     EventName="ItemTapped"                      
                     Command="{Binding UserTappedCommand}"
                     EventArgsParameterPath="Item"/>
-            </ListView.Behaviors>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                            <!--Label
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                                <!--Label
                                 FontSize="Large"
                                 Text="{Binding Id}"/-->
-                            <Label
+                                <Label
                                 FontSize="Large"
                                 Text="{Binding FirstName}"/>
-                            <Label
+                                <Label
                                 FontSize="Large"
                                 Text="{Binding LastName}"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label
+               Text="Brak użytkowników do pokazania" 
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center" 
+               FontSize="Large"
+               IsVisible="{Binding IsVisible.Label}"/>
+        </StackLayout>
 
         <StackLayout Orientation="Horizontal">
             <Switch IsToggled="{Binding SearchByFirstName}">
