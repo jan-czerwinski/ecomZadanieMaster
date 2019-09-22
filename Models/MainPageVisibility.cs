@@ -4,9 +4,10 @@ using System.Text;
 
 namespace ecomZadanie.Models
 {
-    public class Visible
+    public class MainPageVisibility
     {
         public bool ListView { get; set; }
         public bool Label { get; set; }
+        public bool ActivityIndicator { get; set; }
     }
 }

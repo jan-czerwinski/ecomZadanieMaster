@@ -4,11 +4,17 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ecomZadanie.Views.UserDetailsPage">
-    <StackLayout>
-        <Label Text="{Binding UserData.Id,       StringFormat='Id: {0:F0}'}"       FontSize="Large"/>
-        <Label Text="{Binding UserData.FirstName,StringFormat='Imię: {0:F0}'}"     FontSize="Large"/>
-        <Label Text="{Binding UserData.LastName, StringFormat='Nazwisko: {0:F0}'}" FontSize="Large"/>
-        <Label Text="{Binding UserData.Age,      StringFormat='Wiek: {0:F0}'}"     FontSize="Large"/>
-        <Label Text="{Binding UserData.City,     StringFormat='Miasto: {0:F0}'}"   FontSize="Large"/>
-    </StackLayout>
+    <Grid>
+        <ActivityIndicator
+                    IsRunning="{Binding IsVisible.ActivityIndicator}"
+                    IsVisible="{Binding IsVisible.ActivityIndicator}"
+                    VerticalOptions="CenterAndExpand"/>
+        <StackLayout IsVisible="{Binding IsVisible.UserData}">
+            <Label Text="{Binding UserData.Id,       StringFormat='Id: {0:F0}'}"       FontSize="Large"/>
+            <Label Text="{Binding UserData.FirstName,StringFormat='Imię: {0:F0}'}"     FontSize="Large"/>
+            <Label Text="{Binding UserData.LastName, StringFormat='Nazwisko: {0:F0}'}" FontSize="Large"/>
+            <Label Text="{Binding UserData.Age,      StringFormat='Wiek: {0:F0}'}"     FontSize="Large"/>
+            <Label Text="{Binding UserData.City,     StringFormat='Miasto: {0:F0}'}"   FontSize="Large"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>

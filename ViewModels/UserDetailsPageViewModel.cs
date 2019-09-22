@@ -14,7 +14,12 @@ namespace ecomZadanie.ViewModels
     {
 
         readonly RestService restService;
-
+        private UserDetailsPageVisibility _isVisible;
+        public UserDetailsPageVisibility IsVisible
+        {
+            get { return _isVisible; }
+            set { SetProperty(ref _isVisible, value); }
+        }
         private UserDetails _userData;
         public UserDetails UserData
         {
@@ -25,6 +30,7 @@ namespace ecomZadanie.ViewModels
             : base(navigationService)
         {
             restService = new RestService();
+            IsVisible = new UserDetailsPageVisibility() { ActivityIndicator = true, UserData = false };
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -37,6 +43,7 @@ namespace ecomZadanie.ViewModels
         {
             var result = await restService.GetUserDetails(Id);
             UserData = result;
+            IsVisible = new UserDetailsPageVisibility() { ActivityIndicator = false, UserData = true };
         }
     }
 }

@@ -15,8 +15,8 @@ namespace ecomZadanie.ViewModels
         public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
         readonly RestService restService;
 
-        private Visible _isVisible;
-        public Visible IsVisible
+        private MainPageVisibility _isVisible;
+        public MainPageVisibility IsVisible
         {
             get { return _isVisible; }
             set { SetProperty(ref _isVisible, value); }
@@ -47,7 +47,7 @@ namespace ecomZadanie.ViewModels
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
             UserTappedCommand = new DelegateCommand<User>(UserTapped);
-            IsVisible = new Visible() { ListView = true, Label = false };
+            IsVisible = new MainPageVisibility() { ActivityIndicator = true, ListView = true, Label = false };
             FillAllUsers();
         }
 
@@ -67,6 +67,7 @@ namespace ecomZadanie.ViewModels
                 AllUsers.Add(user);
             }
             FillVisibleUsers();
+            SetVisibility();
         }
         private void FillVisibleUsers()
         {
@@ -104,10 +105,11 @@ namespace ecomZadanie.ViewModels
 
         private void SetVisibility()
         {
-            IsVisible = new Visible()
+            IsVisible = new MainPageVisibility()
             {
                 Label = VisibleUsers.Count == 0,
-                ListView = VisibleUsers.Count != 0
+                ListView = VisibleUsers.Count != 0,
+                ActivityIndicator = false
             };
         }
     }

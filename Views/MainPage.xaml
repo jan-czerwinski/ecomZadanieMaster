@@ -6,35 +6,42 @@
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
 
     <StackLayout>
-        <StackLayout VerticalOptions="FillAndExpand">
-            <ListView
-            x:Name="UserView"
-            ItemsSource="{Binding VisibleUsers}"
-            IsVisible="{Binding IsVisible.ListView}">
-                <ListView.Behaviors>
-                    <b:EventToCommandBehavior 
-                    EventName="ItemTapped"                      
-                    Command="{Binding UserTappedCommand}"
-                    EventArgsParameterPath="Item"/>
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-                                <!--Label
-                                FontSize="Large"
-                                Text="{Binding Id}"/-->
-                                <Label
-                                FontSize="Large"
-                                Text="{Binding FirstName}"/>
-                                <Label
-                                FontSize="Large"
-                                Text="{Binding LastName}"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <StackLayout >
+            <Grid>
+                <ActivityIndicator
+                    IsRunning="{Binding IsVisible.ActivityIndicator}"
+                    IsVisible="{Binding IsVisible.ActivityIndicator}"
+                    VerticalOptions="CenterAndExpand"/>
+                <ListView
+                    VerticalOptions="FillAndExpand"
+                    x:Name="UserView"
+                    ItemsSource="{Binding VisibleUsers}"
+                    IsVisible="{Binding IsVisible.ListView}">
+                    <ListView.Behaviors>
+                        <b:EventToCommandBehavior 
+                            EventName="ItemTapped"                      
+                            Command="{Binding UserTappedCommand}"
+                            EventArgsParameterPath="Item"/>
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                                    <!--Label
+                                        FontSize="Large"
+                                        Text="{Binding Id}"/-->
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding FirstName}"/>
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding LastName}"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
             <Label
                Text="Brak użytkowników do pokazania" 
                HorizontalOptions="Center" 
