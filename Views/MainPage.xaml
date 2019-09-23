@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ecomZadanie.Views.MainPage"
+             Title="{Binding Title}"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms">
+
+    <StackLayout>
+        <StackLayout >
+            <Grid>
+                <ActivityIndicator
+                    IsRunning="{Binding IsVisible.ActivityIndicator}"
+                    IsVisible="{Binding IsVisible.ActivityIndicator}"
+                    VerticalOptions="CenterAndExpand"/>
+                <ListView
+                    VerticalOptions="FillAndExpand"
+                    x:Name="UserView"
+                    ItemsSource="{Binding VisibleUsers}"
+                    IsVisible="{Binding IsVisible.ListView}">
+                    <ListView.Behaviors>
+                        <b:EventToCommandBehavior 
+                            EventName="ItemTapped"                      
+                            Command="{Binding UserTappedCommand}"
+                            EventArgsParameterPath="Item"/>
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                                    <!--Label
+                                        FontSize="Large"
+                                        Text="{Binding Id}"/-->
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding FirstName}"/>
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding LastName}"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackLayout>
+        <Label
+                Text="Brak użytkowników spełniających wyszukanie" 
+                HorizontalOptions="Center" 
+                HorizontalTextAlignment="Center" 
+                VerticalOptions="CenterAndExpand"
+                FontSize="Large"
+                IsVisible="{Binding IsVisible.Label}"/>
+
+        <StackLayout Orientation="Horizontal">
+            <Switch IsToggled="{Binding SearchByFirstName}">
+                <Switch.Behaviors>
+                    <b:EventToCommandBehavior 
+                        EventName="Toggled" 
+                        Command="{Binding SearchCommand}"
+                        CommandParameter="{Binding Text, Source={x:Reference SearchBar}}"/>
+                </Switch.Behaviors>
+            </Switch>
+
+            <SearchBar
+                x:Name="SearchBar"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding SearchText}"
+                Placeholder="Wyszukaj po nazwisku"
+                SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+                <SearchBar.Triggers>
+                    <DataTrigger 
+                        TargetType="SearchBar"
+                        Binding="{Binding SearchByFirstName}"
+                        Value="True">
+                        <Setter 
+                             Property="Placeholder"
+                             Value="Wyszukaj po imieniu" />
+                    </DataTrigger>
+                </SearchBar.Triggers>
+                <SearchBar.Behaviors>
+                    <b:EventToCommandBehavior
+                        EventName="TextChanged"
+                        Command="{Binding TextChangeInSearchCommand}"/>
+                </SearchBar.Behaviors>
+            </SearchBar>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>
