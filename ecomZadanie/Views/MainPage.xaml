@@ -9,14 +9,14 @@
         <StackLayout >
             <Grid>
                 <ActivityIndicator
-                    IsRunning="{Binding IsVisible.ActivityIndicator}"
                     IsVisible="{Binding IsVisible.ActivityIndicator}"
+                    IsRunning="true"
                     VerticalOptions="CenterAndExpand"/>
                 <ListView
+                    IsVisible="{Binding IsVisible.ListView}"
                     VerticalOptions="FillAndExpand"
                     x:Name="UserView"
-                    ItemsSource="{Binding VisibleUsers}"
-                    IsVisible="{Binding IsVisible.ListView}">
+                    ItemsSource="{Binding VisibleUsers}">
                     <ListView.Behaviors>
                         <b:EventToCommandBehavior 
                             EventName="ItemTapped"                      
@@ -44,12 +44,19 @@
             </Grid>
         </StackLayout>
         <Label
+                IsVisible="{Binding IsVisible.Label}"
                 Text="Brak użytkowników spełniających wyszukanie" 
                 HorizontalOptions="Center" 
                 HorizontalTextAlignment="Center" 
                 VerticalOptions="CenterAndExpand"
-                FontSize="Large"
-                IsVisible="{Binding IsVisible.Label}"/>
+                FontSize="Large"/>
+        <Label 
+                IsVisible="{Binding IsVisible.SomethingWentWrong}"
+                Text="Coś poszło nie tak."
+                HorizontalOptions="Center" 
+                HorizontalTextAlignment="Center" 
+                VerticalOptions="CenterAndExpand"
+                FontSize="Large"/>
 
         <StackLayout Orientation="Horizontal">
             <Switch IsToggled="{Binding SearchByFirstName}">

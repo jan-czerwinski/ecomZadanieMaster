@@ -11,8 +11,14 @@ namespace ecomZadanie.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         readonly INavigationService _navigationService;
-        public ObservableCollection<User> AllUsers { get; } = new ObservableCollection<User>();
-        public ObservableCollection<User> VisibleUsers { get; set; } = new ObservableCollection<User>();
+        public ObservableCollection<User> AllUsers { get; set; }
+        private ObservableCollection<User> _visibleUsers;
+        public ObservableCollection<User> VisibleUsers
+        {
+            get { return _visibleUsers; }
+            set { SetProperty(ref _visibleUsers, value); }
+        }
+
         readonly RestService restService;
 
         private MainPageVisibility _isVisible;
@@ -47,7 +53,13 @@ namespace ecomZadanie.ViewModels
             SearchCommand = new DelegateCommand<string>(Search);
             TextChangeInSearchCommand = new DelegateCommand(TextChangeInSearch);
             UserTappedCommand = new DelegateCommand<User>(UserTapped);
-            IsVisible = new MainPageVisibility() { ActivityIndicator = true, ListView = true, Label = false };
+            IsVisible = new MainPageVisibility()
+            {
+                ActivityIndicator = true,
+                ListView = true,
+                SomethingWentWrong = false,
+                Label = false
+            };
             FillAllUsers();
         }
 
@@ -61,22 +73,13 @@ namespace ecomZadanie.ViewModels
         }
         private async void FillAllUsers()
         {
-            var result = await restService.RefreshData();
-            foreach (var user in result)
-            {
-                AllUsers.Add(user);
-            }
+            AllUsers = new ObservableCollection<User>(await restService.GetUsers());
             FillVisibleUsers();
             SetVisibility();
         }
         private void FillVisibleUsers()
         {
-            VisibleUsers.Clear();
-            foreach (var user in AllUsers)
-            {
-                VisibleUsers.Add(user);
-            }
-
+            VisibleUsers = new ObservableCollection<User>(AllUsers);
         }
         private void Search(string text)
         {
@@ -107,8 +110,9 @@ namespace ecomZadanie.ViewModels
         {
             IsVisible = new MainPageVisibility()
             {
-                Label = VisibleUsers.Count == 0,
+                Label = VisibleUsers.Count == 0 && AllUsers.Count != 0,
                 ListView = VisibleUsers.Count != 0,
+                SomethingWentWrong = AllUsers.Count == 0,
                 ActivityIndicator = false
             };
         }

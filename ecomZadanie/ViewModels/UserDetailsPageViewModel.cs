@@ -29,19 +29,28 @@ namespace ecomZadanie.ViewModels
             : base(navigationService)
         {
             restService = new RestService();
-            IsVisible = new UserDetailsPageVisibility() { ActivityIndicator = true, UserData = false };
+            IsVisible = new UserDetailsPageVisibility()
+            {
+                ActivityIndicator = true,
+                UserData = false,
+                SomethingWentWrong = false
+            };
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             int.TryParse(parameters.GetValue<string>("Id"), out int Id);
             FillData(Id);
-            Debug.WriteLine(Id);
         }
         private async void FillData(int Id)
         {
             var result = await restService.GetUserDetails(Id);
             UserData = result;
-            IsVisible = new UserDetailsPageVisibility() { ActivityIndicator = false, UserData = true };
+            IsVisible = new UserDetailsPageVisibility()
+            {
+                ActivityIndicator = false,
+                UserData = UserData.Id != 0,
+                SomethingWentWrong = UserData.Id == 0
+            };
         }
     }
 }

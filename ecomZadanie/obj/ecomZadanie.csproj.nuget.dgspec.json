@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanie\\ecomZadanie\\ecomZadanie.csproj": {}
+    "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanieMaster\\ecomZadanie\\ecomZadanie.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanie\\ecomZadanie\\ecomZadanie.csproj": {
+    "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanieMaster\\ecomZadanie\\ecomZadanie.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanie\\ecomZadanie\\ecomZadanie.csproj",
+        "projectUniqueName": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanieMaster\\ecomZadanie\\ecomZadanie.csproj",
         "projectName": "ecomZadanie",
-        "projectPath": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanie\\ecomZadanie\\ecomZadanie.csproj",
+        "projectPath": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanieMaster\\ecomZadanie\\ecomZadanie.csproj",
         "packagesPath": "C:\\Users\\Jan Czerwiński\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanie\\ecomZadanie\\obj\\",
+        "outputPath": "C:\\Users\\Jan Czerwiński\\source\\repos\\ecomZadanieMaster\\ecomZadanie\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

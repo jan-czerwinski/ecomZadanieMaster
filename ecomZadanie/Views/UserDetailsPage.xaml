@@ -6,8 +6,8 @@
              x:Class="ecomZadanie.Views.UserDetailsPage">
     <Grid>
         <ActivityIndicator
-                    IsRunning="{Binding IsVisible.ActivityIndicator}"
                     IsVisible="{Binding IsVisible.ActivityIndicator}"
+                    IsRunning="true"
                     VerticalOptions="CenterAndExpand"/>
         <StackLayout IsVisible="{Binding IsVisible.UserData}">
             <Label Text="{Binding UserData.Id,       StringFormat='Id: {0:F0}'}"       FontSize="Large"/>
@@ -16,5 +16,11 @@
             <Label Text="{Binding UserData.Age,      StringFormat='Wiek: {0:F0}'}"     FontSize="Large"/>
             <Label Text="{Binding UserData.City,     StringFormat='Miasto: {0:F0}'}"   FontSize="Large"/>
         </StackLayout>
+        <Label 
+            IsVisible="{Binding IsVisible.SomethingWentWrong}"
+            Text="Coś poszło nie tak."
+            FontSize="Large"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="Center"/>
     </Grid>
 </ContentPage>

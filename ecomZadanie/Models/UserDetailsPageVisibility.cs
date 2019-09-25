@@ -8,5 +8,6 @@ namespace ecomZadanie.Models
     {
         public bool UserData { get; set; }
         public bool ActivityIndicator { get; set; }
+        public bool SomethingWentWrong { get; set; }
     }
 }
